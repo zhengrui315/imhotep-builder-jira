@@ -74,6 +74,13 @@ public class ActionFactory {
                 .createdDateTimestamp(issue.fields.created.getMillis() / 1000)
                 .lastUpdated(0)
                 .closedDate(0)
+                .timeOriginalEstimate(0)
+                .aggregateTimeOriginalEstimate(0)
+                .timeEstimate(0)
+                .aggregateTimeEstimate(0)
+                .timeSpent(0)
+                .aggregateTimeSpent(0)
+                .workRatio(0)
                 .resolutionDate(JiraActionsUtil.parseDateTime(issue.initialValue("resolutiondate")).toString("yyyy-MM-dd"))
                 .resolutionDateLong(parseDate(issue.initialValue("resolutiondate")))
                 .resolutionDateTimeLong(parseDateTime(issue.initialValue("resolutiondate")))
@@ -84,9 +91,9 @@ public class ActionFactory {
                 .statusHistory(createStatusHistory(issue.initialValue("status")))
                 .links(Collections.emptySet());
 
-            for (final CustomFieldDefinition customFieldDefinition : config.getCustomFields()) {
-                builder.putCustomFieldValues(customFieldDefinition, customFieldParser.parseInitialValue(customFieldDefinition, issue));
-            }
+        for (final CustomFieldDefinition customFieldDefinition : config.getCustomFields()) {
+            builder.putCustomFieldValues(customFieldDefinition, customFieldParser.parseInitialValue(customFieldDefinition, issue));
+        }
 
         return builder.build();
     }
@@ -134,6 +141,13 @@ public class ActionFactory {
                 .resolutionDateTimeLong(history.itemExist("resolutiondate") ? parseDateTime(history.getItemLastValue("resolutiondate")) : prevAction.getResolutionDateTimeLong())
                 .resolutionDateTimestamp(history.itemExist("resolutiondate") ? parseTimestamp(history.getItemLastValue("resolutiondate")) : prevAction.getResolutionDateTimestamp())
                 .lastUpdated(0) // This field is used internally to filter issues longer than 6 months. It's only used by jiraissues so it will always go through the toCurrent() method where it takes the date of the previous action.
+                .timeOriginalEstimate(history.itemExist("timeoriginalestimate") ? Long.parseLong(history.getItemLastValue("timeoriginalestimate")) : prevAction.getTimeOriginalEstimate())
+                .aggregateTimeOriginalEstimate(history.itemExist("aggregatetimeoriginalestimate") ? Long.parseLong(history.getItemLastValue("aggregatetimeoriginalestimate")) : prevAction.getAggregateTimeEstimate())
+                .timeEstimate(history.itemExist("timeestimate") ? Long.parseLong(history.getItemLastValue("timeestimate")) : prevAction.getTimeEstimate())
+                .aggregateTimeEstimate(history.itemExist("aggregatetimeestimate") ? Long.parseLong(history.getItemLastValue("aggregatetimeestimate")) : prevAction.getAggregateTimeEstimate())
+                .timeSpent(history.itemExist("timespent") ? Long.parseLong(history.getItemLastValue("timespent")) : prevAction.getTimeSpent())
+                .aggregateTimeSpent(history.itemExist("aggregatetimespent") ? Long.parseLong(history.getItemLastValue("aggregatetimespent")) : prevAction.getAggregateTimeSpent())
+                .workRatio(history.itemExist("workratio") ? Long.parseLong(history.getItemLastValue("workratio")) : prevAction.getWorkRatio())
                 .comments(prevAction.getComments())
                 .deliveryLeadTime(0)
                 .links(linkFactory.mergeLinks(prevAction.getLinks(), history.getAllItems("link")))

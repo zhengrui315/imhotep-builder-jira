@@ -118,6 +118,13 @@ public class TsvFileWriter {
                 .addLongColumn("timeinstate", Action::getTimeinstate)
                 .addLongColumn("timesinceaction", Action::getTimesinceaction)
                 .addTimeColumn("time", Action::getTimestamp)
+                .addLongColumn("timeoriginalestimate", Action::getTimeOriginalEstimate)
+                .addLongColumn("aggregatetimeoriginalestimate", Action::getAggregateTimeOriginalEstimate)
+                .addLongColumn("timeestimate", Action::getTimeEstimate)
+                .addLongColumn("aggregatetimeestimate", Action::getAggregateTimeEstimate)
+                .addLongColumn("timespent", Action::getTimeSpent)
+                .addLongColumn("aggregatetimespent", Action::getAggregateTimeSpent)
+                .addLongColumn("workratio", Action::getWorkRatio)
                 .addLinkColumns(linkTypes);
 
         for (final CustomFieldDefinition customField : config.getCustomFields()) {
@@ -152,6 +159,13 @@ public class TsvFileWriter {
                 .addTimeColumn("time", Action::getTimestamp)
                 .addLongColumn("comments", Action::getComments)
                 .addLongColumn("closedate", Action::getClosedDate)
+                .addLongColumn("timeoriginalestimate", Action::getTimeOriginalEstimate)
+                .addLongColumn("aggregatetimeoriginalestimate", Action::getAggregateTimeOriginalEstimate)
+                .addLongColumn("timeestimate", Action::getTimeEstimate)
+                .addLongColumn("aggregatetimeestimate", Action::getAggregateTimeEstimate)
+                .addLongColumn("timespent", Action::getTimeSpent)
+                .addLongColumn("aggregatetimespent", Action::getAggregateTimeSpent)
+                .addLongColumn("workratio", Action::getWorkRatio)
                 .addLongColumn("resolutiondate", Action::getResolutionDateLong)
                 .addColumn("resolutiondatetime", Action::getResolutionDateTime)
                 .addLongColumn("resolutiontimestamp", Action::getResolutionDateTimestamp)
